@@ -56,6 +56,21 @@ class _MyHomePageState extends State<MyHomePage> {
     pw.Font.ttf(ByteData.view(File('assets/cjk_fonts/NotoSerifTC[wght].ttf')
         .readAsBytesSync()
         .buffer)),
+    // pw.Font.ttf(ByteData.view(File('assets/cjk_fonts/NotoSansCJKhk-VF.ttf')
+    //     .readAsBytesSync()
+    //     .buffer)),
+    // pw.Font.ttf(ByteData.view(File('assets/cjk_fonts/NotoSansCJKjp-VF.ttf')
+    //     .readAsBytesSync()
+    //     .buffer)),
+    // pw.Font.ttf(ByteData.view(File('assets/cjk_fonts/NotoSansCJKkr-VF.ttf')
+    //     .readAsBytesSync()
+    //     .buffer)),
+    // pw.Font.ttf(ByteData.view(File('assets/cjk_fonts/NotoSansCJKsc-VF.ttf')
+    //     .readAsBytesSync()
+    //     .buffer)),
+    // pw.Font.ttf(ByteData.view(File('assets/cjk_fonts/NotoSansCJKtc-VF.ttf')
+    //     .readAsBytesSync()
+    //     .buffer)),
     pw.Font.ttf(ByteData.view(
         File('assets/fonts/NotoFangsongKSSRotated-Regular.ttf')
             .readAsBytesSync()
@@ -176,10 +191,10 @@ class _MyHomePageState extends State<MyHomePage> {
     pw.Font.ttf(ByteData.view(File('assets/fonts/NotoSansDeseret-Regular.ttf')
         .readAsBytesSync()
         .buffer)),
-    pw.Font.ttf(ByteData.view(
-        File('assets/fonts/NotoSansDevanagari-Regular.ttf')
-            .readAsBytesSync()
-            .buffer)),
+    // pw.Font.ttf(ByteData.view(
+    //     File('assets/fonts/NotoSansDevanagari-Regular.otf')
+    //         .readAsBytesSync()
+    //         .buffer)),
     pw.Font.ttf(ByteData.view(
         File('assets/fonts/NotoSansDevanagariUI-Regular.ttf')
             .readAsBytesSync()
@@ -839,18 +854,24 @@ class _MyHomePageState extends State<MyHomePage> {
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  pw.Text('ഇംഗ്ലീഷ് 英语',
-                      style: pw.TextStyle(
-                          font: pw.Font.ttf(ByteData.view(bytes.buffer)),
-                          fontSize: 10,
-                          fontFallback: fallbackFontList,
-                          fontWeight: pw.FontWeight.bold)),
-                  pw.Text('अंग्रेज़ी સુરત',
-                      style: pw.TextStyle(
-                          font: pw.Font.ttf(ByteData.view(bytes.buffer)),
-                          fontSize: 10,
-                          fontFallback: fallbackFontList,
-                          fontWeight: pw.FontWeight.bold)),
+                  pw.Text(
+                    'ഇംഗ്ലീഷ് 英语',
+                    style: pw.TextStyle(
+                      font: pw.Font.ttf(ByteData.view(bytes.buffer)),
+                      fontSize: 10,
+                      fontFallback: fallbackFontList,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    'अंग्रेज़ी સુરત',
+                    style: pw.TextStyle(
+                      font: pw.Font.ttf(ByteData.view(bytes.buffer)),
+                      fontSize: 10,
+                      fontFallback: fallbackFontList,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
               pw.SizedBox(height: 1 * PdfPageFormat.mm),
@@ -859,16 +880,37 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   pw.Text(
                       DateFormat('dd MMM yyyy hh:mm a').format(DateTime.now()),
-                      style: pw.TextStyle(fontSize: 8)),
-                  pw.Text('Take Away', style: pw.TextStyle(fontSize: 8)),
+                      style: pw.TextStyle(
+                        fontSize: 8,
+                        fontFallback: fallbackFontList,
+                        font: pw.Font.ttf(ByteData.view(bytes.buffer)),
+                      )),
+                  pw.Text('Take Away',
+                      style: pw.TextStyle(
+                        fontFallback: fallbackFontList,
+                        fontSize: 8,
+                        font: pw.Font.ttf(ByteData.view(bytes.buffer)),
+                      )),
                 ],
               ),
               pw.SizedBox(height: 1 * PdfPageFormat.mm),
               pw.Text('French Fries',
                   style: pw.TextStyle(
-                      fontSize: 10, fontWeight: pw.FontWeight.bold)),
-              pw.Text('Small', style: pw.TextStyle(fontSize: 8)),
-              pw.Text('ketchup | Source', style: pw.TextStyle(fontSize: 8)),
+                      fontFallback: fallbackFontList,
+                      fontSize: 10,
+                      fontWeight: pw.FontWeight.bold)),
+              pw.Text('Small',
+                  style: pw.TextStyle(
+                    fontSize: 8,
+                    fontFallback: fallbackFontList,
+                    font: pw.Font.ttf(ByteData.view(bytes.buffer)),
+                  )),
+              pw.Text('ketchup | Source',
+                  style: pw.TextStyle(
+                    fontSize: 8,
+                    fontFallback: fallbackFontList,
+                    font: pw.Font.ttf(ByteData.view(bytes.buffer)),
+                  )),
               pw.Text('1 X Topping(+₹100)',
                   style: pw.TextStyle(
                     fontSize: 8,
@@ -902,18 +944,25 @@ class _MyHomePageState extends State<MyHomePage> {
         _status = 'PDF saved to: ${file.path}';
       });
 
-      // setState(() {
-      //   _status = 'Sending print job...';
-      // });
+      setState(() {
+        _status = 'Sending print job...';
+      });
 
-      // await Printing.directPrintPdf(
-      //   printer: printer,
-      //   onLayout: (_) async => pdf.save(),
-      // );
+      await Printing.directPrintPdf(
+        format: const PdfPageFormat(
+          60 * PdfPageFormat.mm,
+          40 * PdfPageFormat.mm,
+          marginAll: 2 * PdfPageFormat.mm,
+        ),
+        printer: printer,
+        onLayout: (format) async {
+          return pdf.save();
+        },
+      );
 
-      // setState(() {
-      //   _status = 'Print job sent successfully!';
-      // });
+      setState(() {
+        _status = 'Print job sent successfully!';
+      });
     } else {
       setState(() {
         _status = 'PDF saving canceled or failed';
@@ -956,210 +1005,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Future<void> _printReceipt(BuildContext context, Printer printer) async {
-//   final pdf = pw.Document();
-
-//   // Generate the image
-//   final uiImage = await generateImage();
-
-//   // Convert ui.Image to bytes
-//   final byteData = await uiImage.toByteData(format: ui.ImageByteFormat.png);
-//   final Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-//   // Create a pdf image
-//   final pdfImage = pw.MemoryImage(pngBytes, dpi: 203);
-
-//   pdf.addPage(
-//     pw.Page(
-//       build: (pw.Context context) {
-//         return pw.Center(
-//           child: pw.Image(pdfImage),
-//         );
-//       },
-//     ),
-//   );
-
-//   await Printing.layoutPdf(
-
-//     printer: printer,
-//     onLayout: (_) async => pdf.save(),
-//   );
-// }
-
-// Future<ui.Image> generateImage() async {
-//   final recorder = ui.PictureRecorder();
-//   final canvas = Canvas(recorder);
-//   final size = Size(
-//       60 * 3.7795275591, 40 * 3.7795275591); // Convert mm to logical pixels
-//   final marginSize = 2 * 3.7795275591;
-
-//   // Set up the paint
-//   final paint = Paint()
-//     ..color = Colors.white
-//     ..style = PaintingStyle.fill;
-
-//   // Draw the background
-//   canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
-
-//   // Set up the text styles
-//   final boldStyle =
-//       TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: Colors.black);
-//   final regularStyle = TextStyle(fontSize: 8, color: Colors.black);
-
-//   // Draw the content
-//   final textPainter = TextPainter(textDirection: ui.TextDirection.ltr);
-
-//   // Top row
-//   drawText(
-//       canvas, 'ഇംഗ്ലീഷ് 英语', marginSize, marginSize, boldStyle, textPainter);
-//   drawText(canvas, 'अंग्रेज़ी સુરત', size.width - marginSize, marginSize,
-//       boldStyle, textPainter,
-//       alignment: TextAlign.right);
-
-//   // Second row
-//   drawText(canvas, DateFormat('dd MMM yyyy hh:mm a').format(DateTime.now()),
-//       marginSize, marginSize + 15, regularStyle, textPainter);
-//   drawText(canvas, 'Take Away', size.width - marginSize, marginSize + 15,
-//       regularStyle, textPainter,
-//       alignment: TextAlign.right);
-
-//   // Product details
-//   drawText(canvas, 'French Fries', marginSize, marginSize + 30, boldStyle,
-//       textPainter);
-//   drawText(
-//       canvas, 'Small', marginSize, marginSize + 45, regularStyle, textPainter);
-//   drawText(canvas, 'ketchup | Source', marginSize, marginSize + 60,
-//       regularStyle, textPainter);
-//   drawText(canvas, '1 X Topping(+₹100)', marginSize, marginSize + 75,
-//       regularStyle, textPainter);
-
-//   // Price
-//   // drawText(canvas, '₹300.00', size.width - marginSize, size.height - marginSize,
-//   //     boldStyle, textPainter,
-//   //     alignment: TextAlign.right);
-
-//   // Convert the canvas to an image
-//   final picture = recorder.endRecording();
-//   return picture.toImage(size.width.round(), size.height.round());
-// }
-
-// void drawText(Canvas canvas, String text, double x, double y, TextStyle style,
-//     TextPainter textPainter,
-//     {TextAlign alignment = TextAlign.left}) {
-//   textPainter.text = TextSpan(text: text, style: style);
-//   textPainter.textAlign = alignment;
-//   textPainter.layout();
-
-//   final offset = alignment == TextAlign.right
-//       ? Offset(x - textPainter.width, y)
-//       : Offset(x, y);
-
-//   textPainter.paint(canvas, offset);
-// }
-
-// // Usage
-// Future saveImage() async {
-//   final image = await generateImage();
-//   final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-//   final buffer = byteData!.buffer.asUint8List();
-
-//   final directory = await getApplicationDocumentsDirectory();
-//   final file = File('${directory.path}/receipt.png');
-//   print(file);
-//   await file.writeAsBytes(buffer);
-// }
-
-// import 'package:flutter/material.dart';
-// import 'dart:io';
-// import 'package:path/path.dart' as path;
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Custom Label Printer',
-//       theme: ThemeData(primarySwatch: Colors.blue),
-//       home: MyHomePage(),
-//     );
-//   }
-// }
-
-// class MyHomePage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('Font Copier')),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () {
-//             copyFontFiles();
-//           },
-//           child: Text('Copy Font Files'),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// void copyFontFiles() async {
-//   // Define the source and destination directories
-//   const sourceDir = r'C:\Users\nehan\Desktop\fonts';
-//   const destDir = r'C:\Users\nehan\Desktop\new_fonts';
-
-//   // Create the destination directory if it doesn't exist
-//   await Directory(destDir).create(recursive: true);
-
-//   // Traverse the source directory
-//   await for (final entity in Directory(sourceDir).list(recursive: true)) {
-//     if (entity is File) {
-//       final String relativePath = path.relative(entity.path, from: sourceDir);
-//       final List<String> pathSegments = path.split(relativePath);
-//       final String fileName = path.basename(entity.path);
-
-//       // Check if the file is in a "full\ttf" subdirectory
-//       if (pathSegments.length >= 3 &&
-//           pathSegments[pathSegments.length - 3] == 'full' &&
-//           pathSegments[pathSegments.length - 2] == 'ttf' &&
-//           fileName.endsWith('-Regular.ttf')) {
-//         final String destPath = path.join(destDir, fileName);
-
-//         // Copy the file to the destination directory
-//         await entity.copy(destPath);
-//         print('Copied: $fileName');
-//       }
-//     }
-//   }
-
-//   print('Font file copying completed.');
-// }
